@@ -7,6 +7,7 @@ import { setSymbolValue, setBaseValue } from 'app/actions/actions';
 
 const Select = ({ defOptions, name, setSymbol, setBase }) => {
   const [value, setValue] = useState('');
+  // setting ref hook for run useEffect only for update of component
   const isInitialMount = useRef(true);
 
   useEffect(() => {
