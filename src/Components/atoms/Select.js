@@ -1,0 +1,52 @@
+import React, { useEffect, useState, useRef } from 'react';
+import AsyncSelect from 'react-select/async';
+import { loadOptions } from 'features/LoadOptions';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setSymbolValue, setBaseValue } from 'app/actions/actions';
+
+const Select = ({ defOptions, name, setSymbol, setBase }) => {
+  const [value, setValue] = useState('');
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (name === 'base') {
+      setBase(value.label);
+    } else {
+      setSymbol(value.label);
+    }
+  });
+
+  return (
+    <AsyncSelect
+      value={value}
+      options={defOptions}
+      defaultOptions={defOptions}
+      loadOptions={loadOptions}
+      onChange={setValue}
+      name={name}
+      cacheOptions
+    />
+  );
+};
+
+Select.propTypes = {
+  setSymbol: PropTypes.func.isRequired,
+  setBase: PropTypes.func.isRequired,
+  defOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  name: PropTypes.string.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setBase: (value) => dispatch(setBaseValue(value)),
+  setSymbol: (value) => dispatch(setSymbolValue(value)),
+});
+
+export default connect(null, mapDispatchToProps)(Select);
