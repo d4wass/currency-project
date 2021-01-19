@@ -1,10 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrency, fetchSelectedCurrency } from 'app/actions/actions';
+import {
+  fetchCurrency,
+  fetchSelectedCurrency,
+  reverseSelectedCurrencies,
+  setSymbolQuantity,
+} from 'app/actions/actions';
 import PropTypes from 'prop-types';
 import Select from 'Components/atoms/Select';
 import Button from 'Components/atoms/Button';
+import Input from 'Components/atoms/Input';
+import ConvertResult from 'Components/molecules/ConvertResult';
 
 const Converter = ({
   isLoading,
@@ -12,8 +19,12 @@ const Converter = ({
   fetchData,
   fetchSelectedData,
   baseValue,
-  symbols,
-  checked,
+  symbolValue,
+  baseChecked,
+  symbolChecked,
+  reverseSelect,
+  baseQuantity,
+  symbolQuantity,
 }) => {
   const [isChecked, setChecked] = useState(false);
 
@@ -21,10 +32,16 @@ const Converter = ({
     await fetchData();
   }, []);
 
-  const handleClick = async () => {
-    if (baseValue && symbols) {
-      await fetchSelectedData(baseValue, symbols);
+  const handleClick = async (e) => {
+    const { name } = e.target;
+    if (baseValue && symbolValue && name === 'check') {
+      await fetchSelectedData(baseValue, symbolValue);
       await setChecked(true);
+      console.log(baseChecked);
+      // await symbolInp(Number(baseQuantity)*Number(baseChecked[0].value))
+    } else if (baseValue && symbolValue && name === 'reverse') {
+      reverseSelect();
+      await fetchSelectedData(symbolValue, baseValue);
     }
   };
 
@@ -36,16 +53,28 @@ const Converter = ({
           <>
             <Select name="base" defOptions={currency} />
             <Select name="symbol" defOptions={currency} />
-            <Button onClick={handleClick}>Check</Button>
+            <Input name="base" />
+            <Input name="symbol" />
+            <Button onClick={handleClick} name="check">
+              Check
+            </Button>
+            <Button onClick={handleClick} name="reverse">
+              Reverse Currencies
+            </Button>
           </>
         ) : (
           <h1>Loading</h1>
         )}
       </div>
       {isChecked && (
-        <div>
-          <p>{`1 ${baseValue} = ${checked[0].value} ${checked[0].label}`} </p>
-        </div>
+        <ConvertResult
+          baseQuantity={baseQuantity}
+          baseValue={baseValue}
+          baseChecked={baseChecked}
+          symbolQuantity={symbolQuantity}
+          symbolValue={symbolValue}
+          symbolChecked={symbolChecked}
+        />
       )}
     </>
   );
@@ -55,35 +84,67 @@ Converter.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
   fetchSelectedData: PropTypes.func.isRequired,
+  reverseSelect: PropTypes.func.isRequired,
+  baseQuantity: PropTypes.number.isRequired,
+  symbolQuantity: PropTypes.number.isRequired,
   currency: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  checked: PropTypes.arrayOf(
+  baseChecked: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  symbols: PropTypes.string,
+  symbolChecked: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  symbolValue: PropTypes.string,
   baseValue: PropTypes.string,
 };
 
 Converter.defaultProps = {
-  symbols: null,
+  symbolValue: null,
   baseValue: null,
 };
 
 const mapStateToProps = (state) => {
-  const { currency, isLoading, baseValue, symbols, isCheckedLoading, checked } = state;
-  return { currency, isLoading, baseValue, symbols, isCheckedLoading, checked };
+  const {
+    currency,
+    isLoading,
+    baseValue,
+    symbolValue,
+    isCheckedLoading,
+    symbolChecked,
+    baseChecked,
+    baseQuantity,
+    symbolQuantity,
+  } = state;
+  return {
+    currency,
+    isLoading,
+    baseValue,
+    symbolValue,
+    isCheckedLoading,
+    symbolChecked,
+    baseChecked,
+    baseQuantity,
+    symbolQuantity,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(fetchCurrency()),
-  fetchSelectedData: (baseValue, symbols) => dispatch(fetchSelectedCurrency(baseValue, symbols)),
+  fetchSelectedData: (baseValue, symbolValue) =>
+    dispatch(fetchSelectedCurrency(baseValue, symbolValue)),
+  reverseSelect: () => dispatch(reverseSelectedCurrencies()),
+  symbolInp: (value) => dispatch(setSymbolQuantity(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Converter);

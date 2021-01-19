@@ -8,6 +8,9 @@ export const FETCH_SELECTED_CURRENCY_SUCCESS = 'FETCH_SELECTED_CURRENCY_SUCCESS'
 export const FETCH_SELECTED_CURRENCY_FAILURE = 'FETCH_SELECTED_CURRENCY_FAILURE';
 export const SET_BASE_VALUE = 'SET_BASE_VALUE';
 export const SET_SYMBOLS_VALUE = 'SET_SYMBOLS_VALUE';
+export const SET_SYMBOL_QUANTITY = 'SET_SYMBOL_QUANTITY';
+export const SET_BASE_QUANTITY = 'SET_BASE_QUANTITY';
+export const REVERSE_SELECTED_CURRENCIES = 'REVERSE_SELECTED_CURRENCIES';
 
 export const fetchCurrency = () => (dispatch) => {
   dispatch({ type: FETCH_CURRENCY_REQUEST });
@@ -35,17 +38,28 @@ export const fetchCurrency = () => (dispatch) => {
 export const fetchSelectedCurrency = (base, symbol) => (dispatch) => {
   dispatch({ type: FETCH_SELECTED_CURRENCY_REQUEST });
 
+  const baseRequest = axios.get(
+    `https://api.exchangeratesapi.io/latest?base=${base}&symbols=${symbol}`,
+  );
+  const symbolRequest = axios.get(
+    `https://api.exchangeratesapi.io/latest?base=${symbol}&symbols=${base}`,
+  );
+
   return axios
-    .get(`https://api.exchangeratesapi.io/latest?base=${base}&symbols=${symbol}`)
-    .then((res) => {
-      console.log(res);
-      dispatch({
-        type: FETCH_SELECTED_CURRENCY_SUCCESS,
-        payload: {
-          data: res.data,
-        },
-      });
-    })
+    .all([baseRequest, symbolRequest])
+    .then(
+      axios.spread((...responses) => {
+        const baseResponse = responses[0];
+        const symbolResponse = responses[1];
+        console.log(baseResponse.data, symbolResponse.data);
+        dispatch({
+          type: FETCH_SELECTED_CURRENCY_SUCCESS,
+          payload: {
+            data: [baseResponse.data, symbolResponse.data],
+          },
+        });
+      }),
+    )
     .catch((error) => {
       console.log(error);
       dispatch({
@@ -63,12 +77,41 @@ export const setBaseValue = (base) => (dispatch) => {
     },
   });
 };
-export const setSymbolValue = (symbols) => (dispatch) => {
-  console.log(symbols);
+
+export const setSymbolValue = (symbolValue) => (dispatch) => {
+  console.log(symbolValue);
   dispatch({
     type: SET_SYMBOLS_VALUE,
     payload: {
-      symbols,
+      symbolValue,
+    },
+  });
+};
+
+export const setBaseQuantity = (baseQuantity) => (dispatch) => {
+  dispatch({
+    type: SET_BASE_QUANTITY,
+    payload: {
+      baseQuantity: Number(baseQuantity),
+    },
+  });
+};
+
+export const setSymbolQuantity = (symbolQuantity) => (dispatch) => {
+  dispatch({
+    type: SET_SYMBOL_QUANTITY,
+    payload: {
+      symbolQuantity: Number(symbolQuantity),
+    },
+  });
+};
+
+export const reverseSelectedCurrencies = () => (dispatch, getState) => {
+  dispatch({
+    type: REVERSE_SELECTED_CURRENCIES,
+    payload: {
+      symbolValue: getState().baseValue,
+      baseValue: getState().symbolValue,
     },
   });
 };

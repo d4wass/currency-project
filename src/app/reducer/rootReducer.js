@@ -1,3 +1,4 @@
+import { convertToCountry } from 'features/ConvertToCoutry';
 import {
   FETCH_CURRENCY_REQUEST,
   FETCH_CURRENCY_SUCCESS,
@@ -7,6 +8,9 @@ import {
   FETCH_SELECTED_CURRENCY_REQUEST,
   FETCH_SELECTED_CURRENCY_FAILURE,
   FETCH_SELECTED_CURRENCY_SUCCESS,
+  SET_BASE_QUANTITY,
+  SET_SYMBOL_QUANTITY,
+  REVERSE_SELECTED_CURRENCIES,
 } from 'app/actions/actions';
 
 const initialState = {
@@ -14,18 +18,36 @@ const initialState = {
   isCheckedLoading: false,
   currency: [],
   baseValue: null,
+  baseQuantity: 1,
+  symbolQuantity: 1,
   error: [],
-  symbols: null,
-  checked: [],
+  symbolValue: null,
+  baseChecked: [],
+  symbolChecked: [],
 };
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REVERSE_SELECTED_CURRENCIES:
+      if (state.baseValue && state.symbolValue) {
+        return {
+          ...state,
+          baseValue: action.payload.baseValue,
+          symbolValue: action.payload.symbolValue,
+        };
+      }
+      return {
+        ...state,
+      };
     case FETCH_SELECTED_CURRENCY_SUCCESS:
       return {
         ...state,
         isCheckedLoading: false,
-        checked: Object.entries(action.payload.data.rates).map((e) => ({
+        baseChecked: Object.entries(action.payload.data[0].rates).map((e) => ({
+          value: e[1],
+          label: e[0],
+        })),
+        symbolChecked: Object.entries(action.payload.data[1].rates).map((e) => ({
           value: e[1],
           label: e[0],
         })),
@@ -49,7 +71,17 @@ export const rootReducer = (state = initialState, action) => {
     case SET_SYMBOLS_VALUE:
       return {
         ...state,
-        symbols: action.payload.symbols,
+        symbolValue: action.payload.symbolValue,
+      };
+    case SET_BASE_QUANTITY:
+      return {
+        ...state,
+        baseQuantity: action.payload.baseQuantity,
+      };
+    case SET_SYMBOL_QUANTITY:
+      return {
+        ...state,
+        symbolQuantity: action.payload.symbolQuantity,
       };
     case FETCH_CURRENCY_REQUEST:
       return {
@@ -62,9 +94,8 @@ export const rootReducer = (state = initialState, action) => {
         isLoading: false,
         currency: Object.entries(action.payload.data.rates).map((e) => ({
           value: e[1],
-          label: e[0],
+          label: convertToCountry(e[0]),
         })),
-        // baseValue: action.payload.data.base,
       };
     case FETCH_CURRENCY_FAILURE:
       return {

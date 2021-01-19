@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Navbar from 'Components/organisms/Navbar';
+import Sidebar from 'Components/organisms/Sidebar';
+import GlobalStyle from 'theme/GlobalStyle';
+import { theme } from 'theme/mainTheme';
+import { ThemeProvider } from 'styled-components';
 
 const MainTemplate = ({ children }) => (
   <>
-    <Navbar />
-    {children}
+    <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <Sidebar />
+      {children}
+    </ThemeProvider>
   </>
 );
 

@@ -14,9 +14,9 @@ const Select = ({ defOptions, name, setSymbol, setBase }) => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else if (name === 'base') {
-      setBase(value.label);
+      setBase(value.label.slice(0, 3));
     } else {
-      setSymbol(value.label);
+      setSymbol(value.label.slice(0, 3));
     }
   });
 
@@ -29,6 +29,8 @@ const Select = ({ defOptions, name, setSymbol, setBase }) => {
       onChange={setValue}
       name={name}
       cacheOptions
+      isSearchable
+      isClearable
     />
   );
 };

@@ -1,5 +1,5 @@
-export const routes = {
-  home: '/',
-  converter: '/converter',
-  testing: '/testing',
-};
+export const routes = [
+  { name: 'Home', to: '/' },
+  { name: 'Converter', to: '/converter' },
+  { name: 'Testing', to: '/testing' },
+];
