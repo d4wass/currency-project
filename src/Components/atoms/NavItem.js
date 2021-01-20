@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const NavItem = styled.li`
   padding: 10px 20px;
   font-size: 1.4rem;
-  /* letter-spacing: 0.1rem; */
   font-weight: ${({ theme }) => theme.font.weight.semi};
   color: ${({ theme }) => theme.color.grey};
   text-decoration: none;

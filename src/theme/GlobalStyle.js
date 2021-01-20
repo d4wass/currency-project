@@ -16,8 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    /* padding-left: ${({ location }) =>
-      location === '/login' || location === '/register' ? '0px' : '150px'}; */
+    padding-left: 16vw;
     font-size: 1.6rem;
     font-family: "Montserrat", sans-serif;
   }

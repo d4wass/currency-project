@@ -10,9 +10,9 @@ const Root = () => (
   <Router>
     <MainTemplate>
       <Switch>
-        <Route exact path={routes.home} component={Home} />
-        <Route exact path={routes.converter} component={Converter} />
-        <Route exact path={routes.testing} component={App} />
+        <Route exact path={routes[0].to} component={Home} />
+        <Route exact path={routes[1].to} component={Converter} />
+        <Route exact path={routes[2].to} component={App} />
       </Switch>
     </MainTemplate>
   </Router>

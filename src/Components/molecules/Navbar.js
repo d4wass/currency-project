@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NavItem from 'Components/atoms/NavItem';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { routes } from 'routes/routes';
 import { ReactComponent as Home } from 'assets/home-solid.svg';
 import { ReactComponent as Converter } from 'assets/dollar-sign-solid.svg';
@@ -33,6 +33,18 @@ const StyledParagraph = styled.p`
   display: ${({ isMouseOver }) => (!isMouseOver ? 'none' : 'block')};
 `;
 
+const StyledLink = styled(NavItem)`
+  /* display: flex;
+    justify-content: center;
+ 
+
+  ${({ isMouseOver }) =>
+    isMouseOver &&
+    css`
+      justify-content: flex-start;
+    `} */
+`;
+
 const Navbar = ({ isMouseOver }) => {
   const handleLinkIcon = (name) => {
     switch (name) {
@@ -51,10 +63,10 @@ const Navbar = ({ isMouseOver }) => {
     <StyledWrapper>
       <StyledList>
         {routes.map((route) => (
-          <NavItem as={NavLink} to={route.to}>
+          <StyledLink as={NavLink} to={route.to} key={route.name}>
             <StyledIcon as={handleLinkIcon(route.name)} />
             <StyledParagraph isMouseOver={isMouseOver}>{route.name}</StyledParagraph>
-          </NavItem>
+          </StyledLink>
         ))}
       </StyledList>
     </StyledWrapper>
