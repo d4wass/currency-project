@@ -14,15 +14,15 @@ const ConvertResult = ({
   symbolChecked,
 }) => {
   const floatCurrency = (value, quantity = 1) => {
-    const number = quantity * Number(value);
+    const number = (quantity === 0 ? 1 : quantity) * Number(value);
     return number.toFixed(2);
   };
 
   return (
     <StyledWrapper>
       <StyledParagraf>{`${baseQuantity ? `${baseQuantity}` : '1'} ${baseValue} = ${floatCurrency(
-        baseQuantity,
         baseChecked[0].value,
+        baseQuantity,
       )} ${baseChecked[0].label}`}</StyledParagraf>
       <StyledParagraf>{`${
         symbolQuantity ? `${symbolQuantity}` : '1'

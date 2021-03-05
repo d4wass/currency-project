@@ -3,6 +3,9 @@ import axios from 'axios';
 export const FETCH_CURRENCY_REQUEST = 'FETCH_CURRENCY_REQUEST';
 export const FETCH_CURRENCY_SUCCESS = 'FETCH_CURRENCY_SUCCESS';
 export const FETCH_CURRENCY_FAILURE = 'FETCH_CURRENCY_FAILURE';
+export const FETCH_CHARTS_CURRENCY_REQUEST = 'FETCH_CHARTS_CURRENCY_REQUEST';
+export const FETCH_CHARTS_CURRENCY_SUCCESS = 'FETCH_CHARTS_CURRENCY_SUCCESS';
+export const FETCH_CHARTS_CURRENCY_FAILURE = 'FETCH_CHARTS_CURRENCY_FAILURE';
 export const FETCH_SELECTED_CURRENCY_REQUEST = 'FETCH_SELECTED_CURRENCY_REQUEST';
 export const FETCH_SELECTED_CURRENCY_SUCCESS = 'FETCH_SELECTED_CURRENCY_SUCCESS';
 export const FETCH_SELECTED_CURRENCY_FAILURE = 'FETCH_SELECTED_CURRENCY_FAILURE';
@@ -114,4 +117,33 @@ export const reverseSelectedCurrencies = () => (dispatch, getState) => {
       baseValue: getState().symbolValue,
     },
   });
+};
+
+export const chartData = () => (dispatch, getState) => {
+  const base = getState().baseValue;
+  const symbol = getState().symbolValue;
+  const now = new Date().toJSON().slice(0, 10);
+
+  dispatch({ type: FETCH_CHARTS_CURRENCY_REQUEST });
+
+  return axios
+    .get(
+      `https://api.exchangeratesapi.io/history?start_at=2021-02-19&end_at=${now}&base=${base}&symbols=${symbol}`,
+    )
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: FETCH_CHARTS_CURRENCY_SUCCESS,
+        payload: {
+          data: res.data,
+        },
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch({
+        type: FETCH_CHARTS_CURRENCY_FAILURE,
+        payload: error,
+      });
+    });
 };

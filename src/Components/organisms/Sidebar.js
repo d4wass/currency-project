@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navbar from 'Components/molecules/Navbar';
-import Logo from 'Components/atoms/Logo';
-import Help from 'Components/atoms/Help';
 import { useSpring, animated } from 'react-spring';
+// import Logo from 'Components/atoms/Logo';
+// import Help from 'Components/atoms/Help';
 
 const StyledWrapper = styled(animated.div)`
   position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
+  padding: 1vh 1vw;
   background-color: ${({ theme }) => theme.sidebar.dark};
   height: 100vh;
-  width: 8vw;
-  /* max-width: 80px; */
+  /* width: 5vw; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
+  /* transition: .3s ease; */
+
+  &:hover {
+    width: 20vw;
+  }
 `;
 
 const Sidebar = () => {
   const [isMouseOver, setMouseOver] = useState(false);
+
   const props = useSpring({
-    to: [{ width: isMouseOver ? `15vw` : `8vw` }],
-    from: { width: `8vw` },
+    to: [{ width: isMouseOver ? `18vw` : `5vw` }],
+    from: { width: `5vw` },
   });
 
   return (
@@ -32,9 +40,7 @@ const Sidebar = () => {
       onMouseLeave={() => setMouseOver(false)}
       style={props}
     >
-      <Logo />
       <Navbar isMouseOver={isMouseOver} />
-      <Help />
     </StyledWrapper>
   );
 };

@@ -3,6 +3,9 @@ import {
   FETCH_CURRENCY_REQUEST,
   FETCH_CURRENCY_SUCCESS,
   FETCH_CURRENCY_FAILURE,
+  FETCH_CHARTS_CURRENCY_REQUEST,
+  FETCH_CHARTS_CURRENCY_SUCCESS,
+  FETCH_CHARTS_CURRENCY_FAILURE,
   SET_SYMBOLS_VALUE,
   SET_BASE_VALUE,
   FETCH_SELECTED_CURRENCY_REQUEST,
@@ -17,6 +20,7 @@ const initialState = {
   isLoading: false,
   isCheckedLoading: false,
   currency: [],
+  chartData: [],
   baseValue: null,
   baseQuantity: 1,
   symbolQuantity: 1,
@@ -98,6 +102,26 @@ export const rootReducer = (state = initialState, action) => {
         })),
       };
     case FETCH_CURRENCY_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: [...state.error, action.payload.error],
+      };
+    case FETCH_CHARTS_CURRENCY_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FETCH_CHARTS_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        chartData: Object.entries(action.payload.data.rates).map((e) => ({
+          value: e[1],
+          data: e[0],
+        })),
+      };
+    case FETCH_CHARTS_CURRENCY_FAILURE:
       return {
         ...state,
         isLoading: false,

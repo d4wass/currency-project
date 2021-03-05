@@ -6,6 +6,7 @@ import {
   fetchSelectedCurrency,
   reverseSelectedCurrencies,
   setSymbolQuantity,
+  chartData,
 } from 'app/actions/actions';
 import PropTypes from 'prop-types';
 import Select from 'Components/atoms/Select';
@@ -25,6 +26,7 @@ const Converter = ({
   reverseSelect,
   baseQuantity,
   symbolQuantity,
+  chart,
 }) => {
   const [isChecked, setChecked] = useState(false);
 
@@ -37,6 +39,7 @@ const Converter = ({
     if (baseValue && symbolValue && name === 'check') {
       await fetchSelectedData(baseValue, symbolValue);
       await setChecked(true);
+      await chart();
       console.log(baseChecked);
       // await symbolInp(Number(baseQuantity)*Number(baseChecked[0].value))
     } else if (baseValue && symbolValue && name === 'reverse') {
@@ -83,6 +86,7 @@ const Converter = ({
 Converter.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
+  chart: PropTypes.func.isRequired,
   fetchSelectedData: PropTypes.func.isRequired,
   reverseSelect: PropTypes.func.isRequired,
   baseQuantity: PropTypes.number.isRequired,
@@ -145,6 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchSelectedCurrency(baseValue, symbolValue)),
   reverseSelect: () => dispatch(reverseSelectedCurrencies()),
   symbolInp: (value) => dispatch(setSymbolQuantity(value)),
+  chart: () => dispatch(chartData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Converter);
