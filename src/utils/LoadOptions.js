@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { convertToCountry } from 'features/ConvertToCoutry';
+import { convertToCountry } from 'utils/ConvertToCoutry';
 
 export const loadOptions = async (inputText, callback) => {
   await axios.get('https://api.exchangeratesapi.io/latest').then((res) => {

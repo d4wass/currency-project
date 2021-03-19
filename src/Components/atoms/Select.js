@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import AsyncSelect from 'react-select/async';
-import { loadOptions } from 'features/LoadOptions';
+import { loadOptions } from 'utils/LoadOptions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSymbolValue, setBaseValue } from 'app/actions/actions';

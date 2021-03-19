@@ -1,4 +1,4 @@
-import { convertToCountry } from 'features/ConvertToCoutry';
+import { convertToCountry } from 'utils/ConvertToCoutry';
 import {
   FETCH_CURRENCY_REQUEST,
   FETCH_CURRENCY_SUCCESS,

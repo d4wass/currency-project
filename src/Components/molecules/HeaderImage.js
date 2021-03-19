@@ -6,26 +6,35 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100%;
+  height: 90%;
   width: 100%;
 `;
 
+const StyledContent = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const HeaderImage = () => (
-  <StyledWrapper>
-    <Circle height="350" width="350" r="130" cx="175" cy="175" fill="yellow" top="5%" left="10%" />
-    <Circle height="150" width="150" r="70" cx="75" cy="75" fill="green" top="38%" right="30%" />
-    <Circle
-      height="250"
-      width="250"
-      r="110"
-      cx="125"
-      cy="125"
-      fill="black"
-      bottom="5%"
-      right="15%"
-    />
-    <Circle height="400" width="400" r="190" cx="200" cy="200" fill="red" bottom="2%" left="-10%" />
-  </StyledWrapper>
+  <StyledContent>
+    <StyledWrapper>
+      <Circle
+        height="350"
+        width="350"
+        color="rgba(255,255,255,0.4)"
+        top="0%"
+        left="10%"
+        noBg
+        glass
+      />
+      <Circle height="150" width="150" color="#9e8fb2" top="38%" right="30%" gradient="#a7acd9" />
+      <Circle height="250" width="250" color="#000000" gradient="#414141" bottom="5%" right="15%" />
+      <Circle height="400" width="400" color="#fdc521" bottom="0%" left="0%" noBg />
+    </StyledWrapper>
+  </StyledContent>
 );
 
 export default HeaderImage;
