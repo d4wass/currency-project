@@ -6,6 +6,8 @@ export const options = [
       'Watch 10 currencies',
       'exchange unlimited quantity of currency',
       'alerts on drop currency rate',
+      'new option',
+      'next new options',
     ],
     price: '10$',
   },
