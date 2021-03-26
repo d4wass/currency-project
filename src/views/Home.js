@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import HeaderSection from 'Components/organisms/HeaderSection';
 import PricingSection from 'Components/organisms/PricingSection';
+import ReviewSection from 'Components/organisms/ReviewSection';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ const Home = () => (
   <StyledWrapper>
     <HeaderSection />
     <PricingSection />
+    <ReviewSection />
   </StyledWrapper>
 );
 
