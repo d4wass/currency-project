@@ -11,8 +11,9 @@ const StyledWrapper = styled(Wrapper)`
   border-radius: 20px;
   border: 1px solid #fff;
   padding: 40px;
-  margin: 20px;
+  margin-right: 50px;
   flex-direction: column;
+  justify-content: space-between;
   height: 500px;
   min-width: 650px;
 `;
@@ -24,6 +25,7 @@ const StyledHeader = styled(Header)`
 const StyledParagraph = styled(Paragraph)`
   font-size: 1.6rem;
   font-weight: ${({ theme }) => theme.font.weight.light};
+  align-self: flex-end;
 `;
 
 const Slide = ({ item }) => {

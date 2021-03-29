@@ -11,6 +11,7 @@
     "babel-eslint": "^10.1.0",
     "downshift": "^6.0.10",
     "formik": "^2.2.6",
+    "gsap": "^3.6.1",
     "husky": "^4.3.6",
     "lint-staged": "^10.5.3",
     "modern-normalize": "^1.0.0",
