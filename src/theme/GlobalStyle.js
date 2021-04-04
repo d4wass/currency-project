@@ -19,6 +19,16 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     font-family: "Montserrat", sans-serif;
   }
+
+  ::-webkit-scrollbar{
+    width: 10px;
+    background-color: hsl(227,11%,16%);
+  }
+
+   ::-webkit-scrollbar-thumb{
+    background: hsla(0, 0%, 0%, .4);
+    border-radius: 40px;
+  }
 `;
 
 export default GlobalStyle;

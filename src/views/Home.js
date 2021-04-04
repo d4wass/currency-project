@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import HeaderSection from 'Components/organisms/HeaderSection';
 import PricingSection from 'Components/organisms/PricingSection';
 import ReviewSection from 'Components/organisms/ReviewSection';
+import { Wrapper } from 'utils/StyledComponents';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   width: auto;
-  background-color: hsl(227, 11%, 16%);
   padding: 0 5vw;
+  height: 100%;
 `;
 
 const Home = () => (

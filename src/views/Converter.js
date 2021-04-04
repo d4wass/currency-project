@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import Select from 'Components/atoms/Select';
 import Button from 'Components/atoms/Button';
-import Input from 'Components/atoms/Input';
+import CurrencyInput from 'Components/atoms/CurrencyInput';
 import ConvertResult from 'Components/molecules/ConvertResult';
 
 const Converter = ({
@@ -56,8 +56,8 @@ const Converter = ({
           <>
             <Select name="base" defOptions={currency} />
             <Select name="symbol" defOptions={currency} />
-            <Input name="base" />
-            <Input name="symbol" />
+            <CurrencyInput name="base" />
+            <CurrencyInput name="symbol" />
             <Button onClick={handleClick} name="check">
               Check
             </Button>

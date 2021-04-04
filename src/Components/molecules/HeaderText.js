@@ -5,6 +5,7 @@ import Paragraph from 'Components/atoms/Paragraph';
 
 const StyledContent = styled.div`
   width: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import Header from 'Components/atoms/Header';
 import Cards from 'Components/molecules/Cards';
 import Span from 'Components/atoms/Span';
+import { Wrapper } from 'utils/StyledComponents';
 
-const StyledWrapper = styled.div`
-  height: 100vh;
-  padding-top: 200px;
+const StyledWrapper = styled(Wrapper)`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledHeader = styled(Header)`

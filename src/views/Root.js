@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { routes } from 'routes/routes';
 import App from 'views/App';
+import Account from 'views/Account';
 import Converter from 'views/Converter';
 import Home from 'views/Home';
 import MainTemplate from 'templates/MainTemplate';
@@ -15,6 +16,7 @@ const Root = () => (
           <Route exact path={routes[0].to} component={Home} />
           <Route exact path={routes[1].to} component={Converter} />
           <Route exact path={routes[2].to} component={App} />
+          <Route exact path={routes[3].to} component={Account} />
         </Switch>
       </MainTemplate>
     </Router>
